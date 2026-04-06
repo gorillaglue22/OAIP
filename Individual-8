@@ -1,0 +1,42 @@
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+
+int main() {
+    setlocale(LC_ALL, "Russian");
+
+    // Границы интегрирования
+    const double left_x = -25.0;
+    const double right_x = 25.0;
+    const double bottom_y = -25.0;   // Нижняя граница (прямая)
+
+    // Аналитический (точный) результат
+    double exact_area = 625.0;
+
+    // Численное интегрирование методом прямоугольников
+    int n = 1000000;                 // Количество разбиений
+    double step = (right_x - left_x) / n;
+    double numeric_area = 0.0;
+
+    for (int i = 0; i < n; ++i) {
+        double x = left_x + i * step;
+        double top_y = -std::abs(x); // Верхняя граница: y = -|x|
+        double height = top_y - bottom_y; // = -|x| - (-25) = 25 - |x|
+        numeric_area += height * step;
+    }
+
+    // Вывод результатов
+    std::cout << std::fixed << std::setprecision(10);
+    std::cout << "============================================\n";
+    std::cout << "  Задача 8. Площадь заштрихованной фигуры\n";
+    std::cout << "============================================\n";
+    std::cout << "Фигура ограничена:\n";
+    std::cout << "  сверху: y = -|x|\n";
+    std::cout << "  снизу:  y = -25\n";
+    std::cout << "Точки пересечения: x = -25, x = 25\n\n";
+    std::cout << "Аналитический результат: " << exact_area << " кв. ед.\n";
+    std::cout << "Численный результат:     " << numeric_area << " кв. ед.\n";
+    std::cout << "============================================\n";
+
+    return 0;
+}
